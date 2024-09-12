@@ -1,0 +1,28 @@
+
+.home_contaiener{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4em;
+}
+.home_container h1{
+    font-size: 2.5em;
+    margin-bottom: .5em;
+    color: white;
+}
+.home_container h1 span {
+    color:rgb(172, 5, 5);
+    padding: 0 .2em;
+    background-color: rgb(49, 49, 49);
+}
+.home_container p{
+    margin-bottom: 1.5em;
+    color: rgb(44, 44, 44);
+}
+.home_container img{
+    width: 800px;
+    margin: 0;
+
+}

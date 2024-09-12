@@ -1,0 +1,43 @@
+/* container menu */
+@import url('https://fonts.googleapis.com/css2?family=Metal+Mania&display=swap');
+    .NavBar{
+        display: flex;
+        justify-content: space-between;
+        background-color: rgb(49, 6, 6);
+        padding: 1em;
+    }
+
+/* regras da lista */
+.list{
+    display: flex;
+    list-style: none;
+    align-self: center;
+    justify-content: space-between;
+    padding-top: 10px;
+
+    
+}
+
+
+/* regar dos links */
+.item {
+    margin-right: 1em;
+    color: beige;
+    font-size: 1.5em;
+    transition: transform 0.5s;
+    font-family: "Metal Mania", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    padding-top: 2em;
+    transform-origin: center center; /* Define o ponto de origem da transformação */
+}
+
+.item:hover {
+    transform: scale(1.2);
+}
+.logo{
+    width: 120px;
+    height: 120px;
+    padding-right: 20px;
+ }
+
