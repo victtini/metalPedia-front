@@ -1,70 +1,115 @@
-import React, { useState } from "react";
-import Style from './InsertBand.module.css';
-import Input from "../forms/input";
+import React, { useState, useEffect } from "react";
+import style from './InsertBand.module.css';
+import Input from "../forms/Input";
 import Select from "../forms/Select";
-import AddMember from "../forms/AddMember"; // Importa o novo componente para adicionar membros
 import Button from "../forms/Button";
 
 const InsertBand = () => {
-    const [members, setMembers] = useState([{ name: "" }]); // array para os membros
+    const [categorias, setCategorias] = useState([]);
+    const [band, setBand] = useState({ nome_banda: "", categoria: "" });
 
-    const handleAddMember = () => {
-        setMembers([...members, { name: "" }]); // adiciona um novo membro ao array
-    };
+    function handleChangeBand(event) {
+        setBand({ ...band, [event.target.name]: event.target.value });
+    }
 
-    const handleRemoveMember = (index) => {
-        const newMembers = [...members];
-        newMembers.splice(index, 1); // remove o membro com base no índice
-        setMembers(newMembers);
-    };
+    function createBand(band) {
+        fetch('http://localhost:5000/inserirBanda', {
+            method:'POST',
+            mode:'cors',
+            headers:{
+                'Content-Type':'application/json',
+            },
+            body: JSON.stringify(band)
+        })
+        .then(resp => {
+            if (resp.status === 201) {
+                return resp.json();
+            } else {
+                throw new Error(`Erro ao cadastrar a banda (Status: ${resp.status})`);
+            }
+        })
+        .then(data => {
+            alert('Banda cadastrada com sucesso!');
+        })
+        .catch(err => {
+            console.error('Erro ao cadastrar banda:', err);
+            alert(err.message);
+        });
+    }
 
-    const handleInputChange = (index, value) => {
-        const newMembers = [...members];
-        newMembers[index].name = value; // atualiza o nome do membro
-        setMembers(newMembers);
-    };
+    function handleChangeCategory(event) {
+        setBand({ ...band, categoria: event.target.value });
+    }
+
+    useEffect(() => {
+        fetch('http://localhost:5000/listagemCategorias', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            if (data && data.data) {
+                setCategorias(data.data);
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao carregar categorias:', error);
+        });
+    }, []);
+
+    function handleSubmit(event) {
+        event.preventDefault();
+
+        // Exibir os valores de nome_banda e categoria para depuração
+        console.log("Nome da banda:", band.nome_banda);
+        console.log("Categoria:", band.categoria);
+
+        // Verificação mais específica para campos vazios
+        if (!band.nome_banda.trim()) {
+            alert('Por favor, preencha o nome da banda.');
+            return;
+        }
+
+        if (!band.categoria || band.categoria === "") {
+            alert('Por favor, selecione uma categoria.');
+            return;
+        }
+
+        createBand(band);
+    }
 
     return (
-        <section className={Style.create_band_container}>
-            <h1>InsertBand</h1>
-            <Input 
-                type='text'
-                name='Txt_Banda'
-                text='Nome da banda'
-                placeHolder='Digite o nome da banda'
-            />
-            <Select
-                name='categoria'
-                text='Escolha um gênero'
-            />
+        <section className={style.create_band_container}>
+            <h1>Cadastro de Banda</h1>
 
-            <h2>Membros da Banda</h2>
-            {members.map((member, index) => (
-                <div key={index} className={Style.member_input}>
-                    <Input
-                        type='text'
-                        name={`member_${index}`}
-                        text={`Nome do membro ${index + 1}`}
-                        placeHolder='Digite o nome do membro'
-                        value={member.name}
-                        onChange={(e) => handleInputChange(index, e.target.value)}
-                    />
-                    <button 
-                        className={Style.remove_button} 
-                        onClick={() => handleRemoveMember(index)}
-                    >
-                        Remover
-                    </button>
-                </div>
-            ))}
+            <form onSubmit={handleSubmit}>
+                <Input
+                    type='text'
+                    name='nome_banda'
+                    placeHolder='Digite o nome da banda'
+                    text='Nome da banda'
+                    onChange={handleChangeBand}  // Passando corretamente o handler
+                    value={band.nome_banda}  // Certificando que o valor é controlado pelo estado
+                />
 
-            <AddMember onClick={handleAddMember} /> {/* Usa o novo botão para adicionar membros */}
+                <Select
+                    name='categoria'
+                    text='Escolha um gênero'
+                    options={categorias}
+                    onChange={handleChangeCategory}
+                    value={band.categoria}  // Tornando o select controlado
+                />
 
-            <Button 
-                rotulo ='cadastrar livro'
-            />
+                <Button
+                    rotulo='Cadastrar Banda'
+                    type="submit"
+                    className={style.submit_button}
+                />
+            </form>
         </section>
     );
-}
+};
 
 export default InsertBand;
