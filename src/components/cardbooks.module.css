@@ -1,18 +1,19 @@
-
 .conteiner{
     background-color: rgb(59, 59, 59);
     text-align: center;
     border-radius: 20px;
+    margin: 5px;
+    padding: 5px;
 
 }    
 
-img{
-    width: 300px;
-    height: 400px;
+.imgSong{
+    width: 200px;
+    height: 200px;
    
     
 }
-img:hover {
+.imgSong:hover {
     background-color: rgb(78, 78, 78);
 
     -ms-transform: scale(1.02); /* IE 9 */
@@ -27,7 +28,7 @@ img:hover {
 .titulo{
     font-size:32px ;
     font-weight:300 ;
-    color: white;
+    color: rgb(0, 0, 0);
     
 }
 .subtitulo{

@@ -2,12 +2,14 @@ import React from "react";
 
 import style from './conteiner.module.css'
 
-
-const Conteiner = (props) =>{
+const Container = (props) =>{
     return(
-        <div className={style.Conteiner}>
+
+        <div className={style.container}>
             {props.children}
         </div>
+
     )
 }
-export default Conteiner;
+
+export default Container

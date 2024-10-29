@@ -1,4 +1,9 @@
-body{
-    margin:0;
+body {
+    margin: 0 auto;
+    padding: 0;
+    background-color: rgb(80, 79, 79);
+}
+h1, h2, h3, h4, h5, h6, p, img {
+    margin: 0;
     padding: 0;
 }

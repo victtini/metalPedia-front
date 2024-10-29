@@ -1,18 +1,18 @@
-import "../App"
-import style from './cardbooks.module.css'
-import Button from './button'
-const CardBooks = ({titulo, autor, imagem}) =>{
-   
-    return(
+import React from "react";
+import style from './cardbooks.module.css';
+import Button from './button';
+
+const CardBooks = ({ titulo, ano, imagem, cod_musica }) => {
+    return (
         <div className={style.conteiner}>
-        <div className={style.card}>
-            <h3 className={style.titulo}>{titulo}</h3>
-            <p className={style.subtitulo}>{autor}</p>
-            <img src={imagem} alt ={titulo} title={titulo}></img>
-            <Button label="detalhe"></Button>
+            <h1 className={style.titulo}>{titulo}</h1> {/* Aqui mostramos o título da música */}
+            <p className={style.subtitulo}>{ano}</p> {/* Aqui mostramos o ano de lançamento */}
+            <img src={imagem} alt={titulo} className={style.imgSong} />
+            <div>
+                <Button label='DETALHE' router='/DetailBook/' cod_musica={cod_musica} />
+            </div>
         </div>
-        </div>
-    )
+    );
 }
- 
+
 export default CardBooks;

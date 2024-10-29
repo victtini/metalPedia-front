@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import style from './InsertBand.module.css';
-import Input from "../forms/Input";
+import Input from "../forms/input";
 import Select from "../forms/Select";
 import Button from "../forms/Button";
 
@@ -62,9 +62,11 @@ const InsertBand = () => {
     function handleSubmit(event) {
         event.preventDefault();
 
+        // Exibir os valores de nome_banda e categoria para depuração
         console.log("Nome da banda:", band.nome_banda);
         console.log("Categoria:", band.categoria);
 
+        // Verificação mais específica para campos vazios
         if (!band.nome_banda.trim()) {
             alert('Por favor, preencha o nome da banda.');
             return;
@@ -88,8 +90,8 @@ const InsertBand = () => {
                     name='nome_banda'
                     placeHolder='Digite o nome da banda'
                     text='Nome da banda'
-                    onChange={handleChangeBand}
-                    value={band.nome_banda}
+                    onChange={handleChangeBand}  // Passando corretamente o handler
+                    value={band.nome_banda}  // Certificando que o valor é controlado pelo estado
                 />
 
                 <Select
@@ -97,7 +99,7 @@ const InsertBand = () => {
                     text='Escolha um gênero'
                     options={categorias}
                     onChange={handleChangeCategory}
-                    value={band.categoria}
+                    value={band.categoria}  // Tornando o select controlado
                 />
 
                 <Button

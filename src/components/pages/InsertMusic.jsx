@@ -1,32 +1,31 @@
 import React, { useState, useEffect } from "react";
 import Style from './InsertMusic.module.css';
-import Input from "../forms/Input";
+import Input from "../forms/input";
 import Select from "../forms/Select";
 import Button from "../forms/Button";
 
 const InsertMusic = () => {
     const [categorias, setCategorias] = useState([]);
-    const [music, setMusic] = useState({ titulo_musica: "", ano_lancamento: "", url: "", categoria: "" });
+    const [music, setMusic] = useState({
+        titulo_musica: "",
+        nome_banda: "", // Novo campo para o nome da banda ou cantor
+        ano_lancamento: "",
+        url: "",
+        categoria: ""
+    });
 
     function handleChangeMusic(event) {
         setMusic({ ...music, [event.target.name]: event.target.value });
     }
 
     function createMusic(music) {
-        let formattedDate = music.ano_lancamento;
-        if (formattedDate) {
-            formattedDate = new Date(music.ano_lancamento).getFullYear().toString();
-        }
-
-        const musicData = { ...music, ano_lancamento: formattedDate };
-
         fetch('http://localhost:5000/inserirMusica', {
             method: 'POST',
             mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(musicData)
+            body: JSON.stringify(music)
         })
         .then(resp => {
             if (resp.status === 201) {
@@ -44,8 +43,36 @@ const InsertMusic = () => {
         });
     }
 
-    function handleChangeCategory(event) {
-        setMusic({ ...music, categoria: event.target.value });
+    function handleSubmit(event) {
+        event.preventDefault();
+
+        // Validações de campo
+        if (!music.titulo_musica.trim()) {
+            alert('Por favor, preencha o título da música.');
+            return;
+        }
+
+        if (!music.nome_banda.trim()) {
+            alert('Por favor, preencha o nome da banda ou cantor.');
+            return;
+        }
+
+        if (!music.ano_lancamento.trim()) {
+            alert('Por favor, preencha o ano de lançamento.');
+            return;
+        }
+
+        if (!music.url.trim()) {
+            alert('Por favor, preencha a URL da música.');
+            return;
+        }
+
+        if (!music.categoria) {
+            alert('Por favor, selecione uma categoria.');
+            return;
+        }
+
+        createMusic(music);
     }
 
     useEffect(() => {
@@ -66,32 +93,6 @@ const InsertMusic = () => {
         });
     }, []);
 
-    function handleSubmit(event) {
-        event.preventDefault();
-
-        if (!music.titulo_musica.trim()) {
-            alert('Por favor, preencha o título da música.');
-            return;
-        }
-
-        if (!music.ano_lancamento.trim()) {
-            alert('Por favor, preencha o ano de lançamento.');
-            return;
-        }
-
-        if (!music.url.trim()) {
-            alert('Por favor, preencha a URL da música.');
-            return;
-        }
-
-        if (!music.categoria || music.categoria === "") {
-            alert('Por favor, selecione uma categoria.');
-            return;
-        }
-
-        createMusic(music);
-    }
-
     return (
         <section className={Style.create_music_container}>
             <h1>Inserir Música</h1>
@@ -107,9 +108,17 @@ const InsertMusic = () => {
                 />
 
                 <Input
-                    type='date'
+                    type='text'
+                    name='nome_banda'
+                    placeHolder='Digite o nome da banda ou cantor'
+                    text='Banda/Cantor'
+                    onChange={handleChangeMusic}
+                    value={music.nome_banda}
+                />
+
+                <Input
+                    type='date' // Tipo 'date' para selecionar uma data
                     name='ano_lancamento'
-                    placeHolder='Digite o ano de lançamento'
                     text='Ano de lançamento'
                     onChange={handleChangeMusic}
                     value={music.ano_lancamento}
@@ -128,7 +137,7 @@ const InsertMusic = () => {
                     name='categoria'
                     text='Escolha um gênero'
                     options={categorias}
-                    onChange={handleChangeCategory}
+                    onChange={(event) => setMusic({ ...music, categoria: event.target.value })}
                     value={music.categoria}
                 />
 
