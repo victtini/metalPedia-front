@@ -1,11 +1,13 @@
-import style from './button.module.css'
+import { Link } from 'react-router-dom'
+import Style from './button.module.css'
 
-
-const Button =({label}) =>{
-return(
-    <div className={style.buttonContainer}>
-    <button > {label}</button>
-    </div>
-)
+function Button({label, router, cod_musica}){
+    return(
+        <div className={Style.Button}>
+       <Link to={`${router}${cod_musica}`}>
+            <button>{label}</button>
+            </Link>
+        </div>
+    )
 }
-export default Button
+export default Button;

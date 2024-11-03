@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import style from './ListBand.module.css';
 import Container from "../layout/container";
 import ContainerMusic from '../layout/conteinerBanda';
-import BookCard from '../CardBooks';
+import CardBands from '../CardBands';
 import Metal from '../../assets/metalPediaBand.png';
 
 const ListBand = () => {
@@ -11,11 +11,8 @@ const ListBand = () => {
     useEffect(() => {
         fetch('http://localhost:5000/listagemBandas', {
             method: 'GET',
-            mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': '*'
             },
         })
         .then((resp) => resp.json())
@@ -34,15 +31,16 @@ const ListBand = () => {
                     {
                         band.length > 0 ? (
                             band.map((item) => (
-                                <BookCard
-                                    titulo={item.nomeDaBanda} 
+                                <CardBands
+                                    titulo={item.nomeDaBanda}
+                                    ano={item.anoLancamento}
                                     imagem={Metal}
-                                    cod_banda={item.id}
+                                    cod_musica={item.id}
                                     key={item.id}
                                 />
                             ))
                         ) : (
-                            <p>No bands available.</p> // Mensagem caso `band` esteja vazio
+                            <p>No bands available.</p>
                         )
                     }
                 </ContainerMusic>

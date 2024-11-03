@@ -9,7 +9,7 @@ const ListMusic = () => {
     // Alterado para minúsculo para evitar confusões
     const [music, setMusic] = useState([]);
 
-    // Fetch de músicas do backend
+    // Fetch de músicas do backend          
     useEffect(() => {
         fetch('http://localhost:5000/listagemMusicas', {
             method: 'GET',

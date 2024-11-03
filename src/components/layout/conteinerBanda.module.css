@@ -1,9 +1,10 @@
-.container_band{
+.container_band {
     background-color: #FFF;
     width: 80%;
     padding: 10px;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: row; /* Configura os itens em linha */
+    flex-wrap: wrap; /* Permite que eles quebrem para a linha seguinte */
     justify-content: center;
+    gap: 1em; /* Adiciona um espaço entre os itens */
 }

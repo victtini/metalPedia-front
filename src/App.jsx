@@ -10,6 +10,7 @@ import List from  './components/pages/ListBand'
 import Insert from  './components/pages/InsertBand'
 import ListM from  './components/pages/ListMusic'
 import InsertM from  './components/pages/InsertMusic'
+import DetailMusic from './components/pages/DetailMusic';
 
 function App(){
 
@@ -24,6 +25,7 @@ function App(){
             <Route path='/InserBand' element={<Insert/>}/>
             <Route path='/ListMusic' element={<ListM/>}/>
             <Route path='/InserMusic' element={<InsertM/>}/>
+            <Route path='/DetailMusic/:cod_musica' element={<DetailMusic/>}/>
             </Route>
           </Routes>
       </Container>

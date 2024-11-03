@@ -1,37 +1,46 @@
-.conteiner{
+.list_band_container {
+    width: 100%;
+    display: flex;
+    flex-direction: row; /* Horizontal layout */
+    flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
+    gap: 1em; /* Space between cards */
+    align-items: center;
+    justify-content: center;
+    padding: 4em;
+}
+
+.conteiner {
+    width: 220px; /* Set a consistent width for each card */
     background-color: rgb(59, 59, 59);
     text-align: center;
     border-radius: 20px;
     margin: 5px;
-    padding: 5px;
+    padding: 10px; /* Slightly increase padding */
+}
 
-}    
-
-.imgSong{
+.imgSong {
     width: 200px;
     height: 200px;
-   
-    
+    border-radius: 10px; /* Optional: rounded edges for image */
+    transition: transform 0.2s ease; /* Smooth scaling effect */
 }
+
 .imgSong:hover {
     background-color: rgb(78, 78, 78);
+    transform: scale(1.02);
+}
 
-    -ms-transform: scale(1.02); /* IE 9 */
-  -webkit-transform: scale(1.02); /* Safari 3-8 */
-  transform: scale(1.02);
-  }
-.card{
-    
+.card {
     padding: 10px;
+}
 
+.titulo {
+    font-size: 24px; /* Adjusted to fit card */
+    font-weight: 300;
+    color: rgb(255, 255, 255);
 }
-.titulo{
-    font-size:32px ;
-    font-weight:300 ;
-    color: rgb(0, 0, 0);
-    
-}
-.subtitulo{
-    font-size:20px ;
-    color: rgb(77, 0, 0);
+
+.subtitulo {
+    font-size: 16px;
+    color: rgb(200, 0, 0);
 }
