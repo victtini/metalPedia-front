@@ -48,8 +48,8 @@ const DetailMusic = () => {
                             link da musica
                         </a>
                         <div className={style.container_buttons}>
-                            <Button label="EDITAR" router={`/editMusic/${cod_musica}`} />
-                            <Button label="EXCLUIR" router={`/deleteMusic/${cod_musica}`} />
+                            <Button label="EDITAR" router={`/UpdateMusic/${cod_musica}`} />
+                            <Button label="EXCLUIR" router={`/DeleteMusic/${cod_musica}`} />
                         </div>
                     </div>
                 </>

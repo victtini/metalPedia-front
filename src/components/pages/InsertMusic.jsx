@@ -8,7 +8,7 @@ const InsertMusic = () => {
     const [categorias, setCategorias] = useState([]);
     const [music, setMusic] = useState({
         titulo_musica: "",
-        nome_banda: "", // Novo campo para o nome da banda ou cantor
+        nome_banda: "",
         ano_lancamento: "",
         url: "",
         categoria: ""
@@ -21,32 +21,31 @@ const InsertMusic = () => {
     function createMusic(music) {
         fetch('http://localhost:5000/inserirMusica', {
             method: 'POST',
-            mode: 'cors',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(music)
+            body: JSON.stringify(music),
         })
-        .then(resp => {
-            if (resp.status === 201) {
-                return resp.json();
-            } else {
-                throw new Error(`Erro ao cadastrar a música (Status: ${resp.status})`);
-            }
-        })
-        .then(data => {
-            alert('Música cadastrada com sucesso!');
-        })
-        .catch(err => {
-            console.error('Erro ao cadastrar música:', err);
-            alert(err.message);
-        });
+            .then(resp => {
+                if (resp.status === 201) {
+                    return resp.json();
+                } else {
+                    throw new Error(`Erro ao cadastrar a música (Status: ${resp.status})`);
+                }
+            })
+            .then(() => {
+                alert('Música cadastrada com sucesso!');
+            })
+            .catch(err => {
+                console.error('Erro ao cadastrar música:', err);
+                alert(err.message);
+            });
     }
 
     function handleSubmit(event) {
         event.preventDefault();
 
-        // Validações de campo
+        // Validações
         if (!music.titulo_musica.trim()) {
             alert('Por favor, preencha o título da música.');
             return;
@@ -67,8 +66,8 @@ const InsertMusic = () => {
             return;
         }
 
-        if (!music.categoria) {
-            alert('Por favor, selecione uma categoria.');
+        if (!music.categoria || music.categoria === "") {
+            alert('Por favor, selecione uma categoria válida.');
             return;
         }
 
@@ -82,73 +81,72 @@ const InsertMusic = () => {
                 'Content-Type': 'application/json',
             },
         })
-        .then(resp => resp.json())
-        .then(data => {
-            if (data && data.data) {
-                setCategorias(data.data);
-            }
-        })
-        .catch(error => {
-            console.error('Erro ao carregar categorias:', error);
-        });
+            .then(resp => resp.json())
+            .then(data => {
+                if (data && data.data) {
+                    // Filtra categorias inválidas
+                    setCategorias(data.data.filter((categoria) => categoria.cod_categoria));
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao carregar categorias:', error);
+            });
     }, []);
 
     return (
         <section className={Style.create_music_container}>
             <h1>Inserir Música</h1>
-
             <form onSubmit={handleSubmit}>
                 <Input
-                    type='text'
-                    name='titulo_musica'
-                    placeHolder='Digite o título da música'
-                    text='Título da música'
+                    type="text"
+                    name="titulo_musica"
+                    placeHolder="Digite o título da música"
+                    text="Título da música"
                     onChange={handleChangeMusic}
                     value={music.titulo_musica}
                 />
 
                 <Input
-                    type='text'
-                    name='nome_banda'
-                    placeHolder='Digite o nome da banda ou cantor'
-                    text='Banda/Cantor'
+                    type="text"
+                    name="nome_banda"
+                    placeHolder="Digite o nome da banda ou cantor"
+                    text="Banda/Cantor"
                     onChange={handleChangeMusic}
                     value={music.nome_banda}
                 />
 
                 <Input
-                    type='date' // Tipo 'date' para selecionar uma data
-                    name='ano_lancamento'
-                    text='Ano de lançamento'
+                    type="date"
+                    name="ano_lancamento"
+                    text="Ano de lançamento"
                     onChange={handleChangeMusic}
                     value={music.ano_lancamento}
                 />
 
                 <Input
-                    type='text'
-                    name='url'
-                    placeHolder='Digite a URL da música'
-                    text='Link da música'
+                    type="text"
+                    name="url"
+                    placeHolder="Digite a URL da música"
+                    text="Link da música"
                     onChange={handleChangeMusic}
                     value={music.url}
                 />
 
                 <Select
-                    name='categoria'
-                    text='Escolha um gênero'
+                    name="categoria"
+                    text="Escolha um gênero"
                     options={categorias}
-                    onChange={(event) => setMusic({ ...music, categoria: event.target.value })}
-                    value={music.categoria}
+                    handlerChangeCategory={(event) => setMusic({ ...music, categoria: event.target.value })}
                 />
 
                 <Button
-                    rotulo='Cadastrar Música'
+                    rotulo="Cadastrar Música"
                     type="submit"
                     className={Style.submit_button}
                 />
             </form>
         </section>
     );
-}
+};
 
 export default InsertMusic;
